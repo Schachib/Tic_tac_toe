@@ -6,6 +6,13 @@ from gameparts.exceptions import CellOccupiedError, FieldIndexError
 game = Board()
 
 
+def save_result(results_game):
+    """Сохранить результат игры - объект класса"""
+
+    with open('results.txt', 'a', encoding='utf-8') as file:
+        file.write(f'{results_game}\n')
+
+
 def main():
     """Создать игровое поле - объект класса Board."""
 
@@ -47,11 +54,15 @@ def main():
         # Перерисовать поле с учётом сделанного хода.
         game.display()
         if game.check_win(current_player):
-            print(f'Победил {current_player}')
             running = False
+            result = f'Победил {current_player}!'
+            save_result(result)
+            print(result)
         elif game.is_board_full():
-            print('Ничья.')
             running = False
+            result = 'Ничья!'
+            save_result(result)
+            print(result)
 
         current_player = 'O' if current_player == 'X' else 'X'
 
